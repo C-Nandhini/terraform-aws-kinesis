@@ -7,7 +7,7 @@ provider "aws" {
 }
 module "vpc" {
 # CONSUME VPC MODULE FROM INNERSOURCE IAC
-source = "../../"
+source = "../"
 
 environment = "Test"
 vpc_name = "carbon-vpc"
