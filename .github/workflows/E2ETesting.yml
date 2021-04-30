@@ -1,0 +1,41 @@
+name: End to End Testing
+
+on:  
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  Build&Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+          
+      - name: Setup SSH Key and known hosts
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.MACHINE_USER }}
+          
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.5
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15.0
+
+      - name: Install dependencies
+        run: |
+          cd test
+          go get -v -t -d
+          go mod tidy
+
+      - name: Test
+        run: |
+          cd test
+          go test -v 
