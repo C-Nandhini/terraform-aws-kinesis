@@ -6,7 +6,7 @@ output "vpc_arn" {
 }
 
 output "vpc_id" {
-  value = element(concat(module.vpc[*].id, [""]), 0)
+  value = module.vpc[*].id
   description = "vpc-id"
 }
 
