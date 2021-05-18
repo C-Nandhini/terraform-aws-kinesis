@@ -23,12 +23,6 @@ jobs:
         with:
           terraform_version: 0.14.5
       
-      - name: Install SSH Key
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.INNERSOURCE_IAC_KEY }}"
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
         with:
@@ -39,7 +33,11 @@ jobs:
           cd test
           go get -v -t -d
 
-      - name: Test
+      - name: Install SSH Key & Test
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           cd test
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.INNERSOURCE_IAC_KEY }}"
           go test -v 
