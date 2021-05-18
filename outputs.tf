@@ -11,12 +11,12 @@ output "vpc_id" {
 }
 
 output "internet_gateway_arn" {
-  value = module.internet_gateway[*].arn
+  value = module.igw[*].arn
   description = "igw-arn"
 }
 
 output "internet_gateway_id" {
-  value = module.internet_gateway[*].id
+  value = module.igw[*].id
   description = "igw-id"
 }
 
