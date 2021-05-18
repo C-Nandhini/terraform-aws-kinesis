@@ -24,8 +24,11 @@ jobs:
           terraform_version: 0.14.5
       
       - name: Install SSH Key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && echo "{{ secrets.INNERSOURCE_IAC_KEY }}" >> ~/.ssh/authorized_keys && eval $(ssh-agent -s)
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.INNERSOURCE_IAC_KEY }}"
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
         with:
