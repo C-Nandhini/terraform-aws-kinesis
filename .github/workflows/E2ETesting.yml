@@ -13,7 +13,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      GITHUB_TOKEN: ${{ secrets.INNERSOURCE_IAC_PAT }}
       
     steps:
       - name: Checkout
@@ -23,6 +22,10 @@ jobs:
         uses: hashicorp/setup-terraform@v1.2.1
         with:
           terraform_version: 0.14.5
+      
+      - name: Install SSH Key
+        run: |
+          mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && echo "{{ secrets.INNERSOURCE_IAC_KEY }}" >> ~/.ssh/authorized_keys
 
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
