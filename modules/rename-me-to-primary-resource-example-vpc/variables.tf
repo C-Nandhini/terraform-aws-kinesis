@@ -1,4 +1,4 @@
-# vpc variables
+# vpc example variables
 
 variable "cidr_block" {
   description = "cidr_block"
@@ -38,23 +38,23 @@ variable "enable_classiclink_dns_support" {
 variable "tags" {
   description = "tags"
   type        = map(string)
-  default     = {} 
-}
-
-variable "name" {
-  description = "resource_name"
-  type        = string
-  default     = ""
-}
-
-variable "environment" {
-  description = "environment_name"
-  type        = string
-  default     = ""
+  default     = {}
 }
 
 variable "repo_short_name" {
   description = "repo_short_name"
   type        = string
   default     = "vpc"
+}
+
+variable "environment" {
+  description = "deployment environment"
+  type        = string
+  default     = "regression-test"
+}
+
+variable "name" {
+  description = "name of the resource"
+  type        = string
+  default     = "regression-test-vpc"
 }

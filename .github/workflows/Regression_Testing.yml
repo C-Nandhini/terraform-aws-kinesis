@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   Build_Test:
     runs-on: ubuntu-latest
@@ -29,7 +30,7 @@ jobs:
         with:
           go-version: 1.15.0
 
-      - name: Install dependencies
+      - name: Install Go Packages
         run: |
           cd test
           go get -v -t -d

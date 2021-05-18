@@ -1,7 +1,7 @@
-# create nat_gateway
-resource "aws_nat_gateway" "main" {
-  allocation_id = var.allocation_id
-  subnet_id     = var.subnet_id
+# Sample igw resource creation
+
+resource "aws_internet_gateway" "main" {
+  vpc_id = var.vpc_id
 
   tags = merge(
     {

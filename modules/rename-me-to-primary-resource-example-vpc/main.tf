@@ -1,4 +1,4 @@
-# create vpc
+# Sample vpc resource creation
 
 resource "aws_vpc" "main" {
   cidr_block                     = var.cidr_block

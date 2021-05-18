@@ -1,13 +1,11 @@
-# internet_gateway outputs
+# igw example outputs
 
 output "arn" {
   value = aws_internet_gateway.main.arn
+  description = "internet gateway arn"
 }
 
 output "id" {
   value = aws_internet_gateway.main.id
-}
-
-output "owner_id" {
-  value = aws_internet_gateway.main.owner_id
+  description = "internet gateway id"
 }
