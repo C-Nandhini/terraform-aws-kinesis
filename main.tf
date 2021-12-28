@@ -64,11 +64,17 @@ resource "aws_s3_bucket" "sample" {
   bucket = "sample-${random_integer.random.id}"
   acl    = "private"
   policy = local.policy
+  tags = {
+    yor_trace = "cd508c6b-bd97-438f-8f78-3b1677e7db4d"
+  }
 }
 
 
 resource "aws_s3_bucket" "sample1" {
   bucket = "sample1-${random_integer.random.id}"
+  tags = {
+    yor_trace = "39aeb5fb-591c-4585-8dec-65894dc18439"
+  }
 }
 
 resource "aws_s3_bucket_policy" "sample1_policy" {
@@ -114,16 +120,17 @@ resource "random_integer" "random" {
 
 
 resource "aws_ssm_parameter" "sample" {
- name            = "sample"
- type            = "String"
- value           = "test"
- description     = "policy test"
- tier            = "Standard"
- allowed_pattern = ".*"
- data_type       = "text"
- tags            = {
-   created_for = "BC Policy Test"
- }
+  name            = "sample"
+  type            = "String"
+  value           = "test"
+  description     = "policy test"
+  tier            = "Standard"
+  allowed_pattern = ".*"
+  data_type       = "text"
+  tags = {
+    created_for = "BC Policy Test"
+    yor_trace   = "bfb44042-cbdc-440d-9745-746485753cc5"
+  }
 }
 
 
