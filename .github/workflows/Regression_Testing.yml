@@ -1,45 +1,45 @@
-name: Regression Testing
+# name: Regression Testing
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
 
-jobs:
-  Build_Test:
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+# jobs:
+#   Build_Test:
+#     runs-on: ubuntu-latest
+#     env:
+#       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2.3.4
       
-      - name: HashiCorp - Setup Terraform
-        uses: hashicorp/setup-terraform@v1.2.1
-        with:
-          terraform_version: 0.14.5
-          terraform_wrapper: false
+#       - name: HashiCorp - Setup Terraform
+#         uses: hashicorp/setup-terraform@v1.2.1
+#         with:
+#           terraform_version: 0.14.5
+#           terraform_wrapper: false
       
-      - name: Setup Go environment
-        uses: actions/setup-go@v2.1.3
-        with:
-          go-version: 1.15.0
+#       - name: Setup Go environment
+#         uses: actions/setup-go@v2.1.3
+#         with:
+#           go-version: 1.15.0
 
-      - name: Install Go Packages
-        run: |
-          cd test
-          go get -v -t -d
+#       - name: Install Go Packages
+#         run: |
+#           cd test
+#           go get -v -t -d
 
-      - name: Install SSH Key & Test
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          cd test
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.INNERSOURCE_IAC_KEY }}"
-          go test -v 
+#       - name: Install SSH Key & Test
+#         env:
+#           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+#         run: |
+#           cd test
+#           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+#           ssh-add - <<< "${{ secrets.INNERSOURCE_IAC_KEY }}"
+#           go test -v 
