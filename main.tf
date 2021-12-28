@@ -73,7 +73,38 @@ resource "aws_s3_bucket" "sample1" {
 
 resource "aws_s3_bucket_policy" "sample1_policy" {
   bucket = aws_s3_bucket.sample1.id
-  policy = local.policy
+  policy = <<EOL
+{
+   "Version": "2012-10-17",
+   "Id": "Policy1415115909152",
+   "Statement": [
+     {
+       "Sid": "Access-to-specific-VPCE-only",
+       "Principal": "*",
+       "Action": "s3:*",
+       "Effect": "Deny",
+       "Resource": "*"
+       "Condition": {
+         "StringNotEquals": {
+           "aws:SourceVpce": "vpce-1a2b3c4d"
+         }
+       }
+     },
+     {
+       "Sid": "Access-to-specific-VPCE-only",
+       "Principal": "*",
+       "Action": "s3:*",
+       "Effect": "Allow",
+       "Resource": "*"
+       "Condition": {
+         "StringEquals": {
+           "aws:SourceVpce": "vpce-1a2b3c4d"
+         }
+       }
+     },
+   ]
+}
+EOL
 }
 
 resource "random_integer" "random" {
