@@ -15,5 +15,7 @@ resource "aws_vpc" "main" {
       Platform_IAC_Source = "terraform-aws-${var.repo_short_name}"
     },
     var.tags
-  )
+    , {
+      yor_trace = "47428677-afa1-4fc3-a40a-27cbd9279fa6"
+  })
 }
