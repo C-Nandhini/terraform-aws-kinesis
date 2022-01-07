@@ -112,8 +112,17 @@ resource "random_integer" "random" {
   max = 99999999
 }
 
+resource "aws_ssm_parameter" "aws_ssm_parameter_ok" {
+ name            = "sample"
+ type            = "SecureString"
+ value           = "test"
+ description     = "policy test"
+ tier            = "Standard"
+ allowed_pattern = ".*"
+ data_type       = "text"
+}
 
-resource "aws_ssm_parameter" "sample" {
+resource "aws_ssm_parameter" "aws_ssm_parameter_not_ok" {
  name            = "sample"
  type            = "String"
  value           = "test"
@@ -121,24 +130,74 @@ resource "aws_ssm_parameter" "sample" {
  tier            = "Standard"
  allowed_pattern = ".*"
  data_type       = "text"
- tags            = {
-   created_for = "BC Policy Test"
- }
 }
 
-resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
-  name                 = "mydb"
-  username             = "foo"
-  password             = "foobarbaz"
-  parameter_group_name = "default.mysql5.7"
-  skip_final_snapshot  = true
+resource "aws_db_instance" "aws_db_instance_ok" {
+  allocated_storage       = 10
+  engine                  = "mysql"
+  engine_version          = "5.7"
+  instance_class          = "db.t3.micro"
+  name                    = "mydb"
+  username                = "foo"
+  password                = "foobarbaz"
+  parameter_group_name    = "default.mysql5.7"
+  skip_final_snapshot     = true
+  backup_retention_period = 8
+}
+
+resource "aws_db_instance" "aws_db_instance_not_ok" {
+  allocated_storage       = 10
+  engine                  = "mysql"
+  engine_version          = "5.7"
+  instance_class          = "db.t3.micro"
+  name                    = "mydb"
+  username                = "foo"
+  password                = "foobarbaz"
+  parameter_group_name    = "default.mysql5.7"
+  skip_final_snapshot     = true
   backup_retention_period = 1
 }
 
+resource "aws_vpc" "example" {
+  cidr_block = "10.0.0.0/16"
+}
 
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
+}
+
+resource "aws_route_table" "example" {
+  vpc_id = aws_vpc.example.id
+}
+
+resource "aws_route_table" "aws_route_table_ok" {
+  vpc_id = aws_vpc.example.id
+
+  route {
+    cidr_block = "10.0.1.0/24"
+    gateway_id = aws_internet_gateway.example.id
+  }
+}
+
+resource "aws_route_table" "aws_route_table_not_ok" {
+  vpc_id = aws_vpc.example.id
+
+  route {
+    cidr_block = "10.0.1.0/24"
+    instance_id = aws_internet_gateway.example.id
+  }
+}
+
+resource "aws_route" "aws_route_ok" {
+  route_table_id            = aws_route_table.example.id
+  destination_cidr_block    = "10.0.1.0/22"
+  gateway_id                = aws_internet_gateway.example.id
+}
+
+resource "aws_route" "aws_route_not_ok" {
+  route_table_id            = aws_route_table.example.id
+  destination_cidr_block    = "10.0.1.0/22"
+  instance_id               = aws_internet_gateway.example.id
+}
 
 
