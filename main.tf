@@ -166,6 +166,16 @@ resource "aws_internet_gateway" "example" {
   vpc_id = aws_vpc.example.id
 }
 
+resource "aws_instance" "example" {
+  ami           = "ami-005e54dee72cc1d00"
+  instance_type = "t2.micro"
+  associate_public_ip_address = true
+
+  credit_specification {
+    cpu_credits = "unlimited"
+  }
+}
+
 resource "aws_route_table" "example" {
   vpc_id = aws_vpc.example.id
 }
@@ -183,21 +193,19 @@ resource "aws_route_table" "aws_route_table_not_ok" {
   vpc_id = aws_vpc.example.id
 
   route {
-    cidr_block = "10.0.1.0/24"
-    instance_id = aws_internet_gateway.example.id
+    cidr_block = "0.0.0.0/0"
+    instance_id = aws_instance.example.id
   }
 }
 
 resource "aws_route" "aws_route_ok" {
   route_table_id            = aws_route_table.example.id
-  destination_cidr_block    = "10.0.1.0/22"
+  destination_cidr_block    = "10.0.1.0/24"
   gateway_id                = aws_internet_gateway.example.id
 }
 
 resource "aws_route" "aws_route_not_ok" {
   route_table_id            = aws_route_table.example.id
-  destination_cidr_block    = "10.0.1.0/22"
-  instance_id               = aws_internet_gateway.example.id
+  destination_cidr_block    = "0.0.0.0/0"
+  instance_id               = aws_instance.example.id
 }
-
-
