@@ -220,20 +220,20 @@ resource "aws_route_table" "aws_route_table_test" {
   }
 }
 
-resource "aws_route" "aws_route_ok" {
-  route_table_id            = aws_route_table.example.id
-  destination_cidr_block    = "0.0.0.0/0"
-  gateway_id                = aws_internet_gateway.example.id
-}
+# resource "aws_route" "aws_route_ok" {
+#   route_table_id            = aws_route_table.example.id
+#   destination_cidr_block    = "0.0.0.0/0"
+#   gateway_id                = aws_internet_gateway.example.id
+# }
 
-resource "aws_route" "aws_route_not_ok" {
-  route_table_id            = aws_route_table.example.id
-  destination_cidr_block    = "0.0.0.0/0"
-  instance_id               = aws_instance.example.id
-}
+# resource "aws_route" "aws_route_not_ok" {
+#   route_table_id            = aws_route_table.example.id
+#   destination_cidr_block    = "0.0.0.0/0"
+#   instance_id               = aws_instance.example.id
+# }
 
-resource "aws_route" "aws_route_test" {
-  route_table_id            = aws_route_table.example.id
-  destination_cidr_block    = "10.0.0.0/24"
-  instance_id               = aws_instance.example.id
-}
+# resource "aws_route" "aws_route_test" {
+#   route_table_id            = aws_route_table.example.id
+#   destination_cidr_block    = "10.0.0.0/24"
+#   instance_id               = aws_instance.example.id
+# }
