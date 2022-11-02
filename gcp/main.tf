@@ -163,7 +163,7 @@ resource "google_compute_firewall" "enabled-ingress-allowed-2" {
   
   direction = "INGRESS"
   
-  disabled = true
+  disabled = false
   
 }
 
