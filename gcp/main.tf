@@ -106,7 +106,7 @@ resource "google_compute_firewall" "enabled-ingress-not-allowed" {
     ports    = ["80", "8080", "1000-2000"]
   }
 
-  source_tags = ["web"]
+  source_range = ["0.0.0.0/0","192.168.4.4"]
   
   direction = "INGRESS"
   
@@ -114,16 +114,72 @@ resource "google_compute_firewall" "enabled-ingress-not-allowed" {
 
 # firewall -> enabled, INGRESS, not allowed all -> false
 
-resource "google_compute_firewall" "enabled-ingress-not-allowed" {
+resource "google_compute_firewall" "enabled-ingress-allowed" {
   name    = "test-firewall"
   network = google_compute_network.default.name
 
+  allow {
+    protocol = "all"
+    ports    = ["80", "8080", "1000-2000"]
+  }
+
+  source_range = ["0.0.0.0/0","::/0","0.0.0.0","::0"]
+  
+  direction = "INGRESS"
+  
+}
+
+# firewall -> enabled, INGRESS, not allowed all -> false
+
+resource "google_compute_firewall" "enabled-ingress-allowed-1" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+
+  allow {
+    protocol = "all"
+  }
+
+  source_range = ["0.0.0.0/0"]
+  
+  direction = "INGRESS"
+  
+}
+
+# firewall -> enabled, INGRESS, not allowed all -> false
+
+resource "google_compute_firewall" "enabled-ingress-allowed-2" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+  
+  allow {
+    protocol = "all"
+  }
+  
   allow {
     protocol = "tcp"
     ports    = ["80", "8080", "1000-2000"]
   }
 
-  source_range = ["0.0.0.0/0","::/0","0.0.0.0","::0"]
+  source_range = "0.0.0.0/0"
+  
+  direction = "INGRESS"
+  
+  disabled = true
+  
+}
+
+# firewall -> enabled, INGRESS, allowed all -> false
+
+resource "google_compute_firewall" "enabled-ingress-allowed3" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+
+  allow {
+    protocol = "all"
+    ports    = ["80", "8080", "1000-2000"]
+  }
+
+  source_range = ["0.0.0.0/0","192.168.4.4"]
   
   direction = "INGRESS"
   
