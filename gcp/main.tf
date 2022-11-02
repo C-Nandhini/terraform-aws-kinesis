@@ -94,3 +94,20 @@ resource "google_compute_firewall" "enabled-ingress" {
   direction = "INGRESS"
   
 }
+
+# firewall -> enabled, INGRESS, not allowed all -> false
+
+resource "google_compute_firewall" "enabled-ingress-not-allowed" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "8080", "1000-2000"]
+  }
+
+  source_tags = ["web"]
+  
+  direction = "INGRESS"
+  
+}
