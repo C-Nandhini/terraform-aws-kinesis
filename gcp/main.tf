@@ -153,11 +153,6 @@ resource "google_compute_firewall" "enabled-ingress-allowed-2" {
   allow {
     protocol = "all"
   }
-  
-  allow {
-    protocol = "tcp"
-    ports    = ["80", "8080", "1000-2000"]
-  }
 
   source_ranges = "0.0.0.0/0"
   
