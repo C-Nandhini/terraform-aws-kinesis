@@ -1,153 +1,96 @@
-#https://redlock.atlassian.net/browse/RLP-66465
-#Test Cases: https://docs.google.com/spreadsheets/d/1qLMK9P7x0uCvd_u2e1ChmhpSN4MigQdmjm_MF7APKsA/edit#gid=1971188232
-# GCP Firewall with Inbound rule overly permissive to All Traffic
-#PC-GCP-VPC-221
-
 provider "google" {
   project = "pcs-policy-auto"
   region  = "us-central1"
   zone    = "us-central1-c"
 }
 
-resource "google_compute_network" "dep-vpc-j1-1-rlp-66465" {
-  name = "dep-vpc-j1-1-rlp-66465"
-  auto_create_subnetworks = false
+resource "google_compute_network" "default" {
+  name = "test-network"
 }
 
-#case1 - FP
-resource "google_compute_firewall" "nvul-vpc-j2-1-rlp-66465" {
-  name    = "nvul-vpc-j2-1-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
+# firewall -> disabled, EGRESS -> false
 
-  deny {
-    protocol = "all"
-  }
-  source_ranges = ["0.0.0.0/0"]
-  disabled = false
-}
-
-#case2 - FP
-resource "google_compute_firewall" "nvul-vpc-j2-2-rlp-66465" {
-  name    = "nvul-vpc-j2-2-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
+resource "google_compute_firewall" "default" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
 
   allow {
     protocol = "all"
   }
-  source_ranges = ["::/0"]
-  disabled = true
-}
-
-#case3 - FP
-resource "google_compute_firewall" "nvul-vpc-j2-3-rlp-66465" {
-  name    = "nvul-vpc-j2-3-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
 
   allow {
     protocol = "tcp"
-    ports = ["140"]
+    ports    = ["80", "8080", "1000-2000"]
   }
-  source_ranges = ["0.0.0.0", "192.168.2.0"]
-  disabled = false
-}
 
-#case4 - tP
-resource "google_compute_firewall" "vul-vpc-j2-4-rlp-66465" {
-  name    = "vul-vpc-j2-4-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["::/0"]
-  disabled = false
-}
-
-#case5 - tP
-resource "google_compute_firewall" "vul-vpc-j2-5-rlp-66465" {
-  name    = "vul-vpc-j2-5-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["0.0.0.0", "192.168.2.0"]
-  disabled = false
-}
-
-#case6 - tP
-resource "google_compute_firewall" "vul-vpc-j2-6-rlp-66465" {
-  name    = "vul-vpc-j2-6-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["0.0.0.0/0"]
-  disabled = false
-}
-
-#case7 - tP
-resource "google_compute_firewall" "vul-vpc-j2-7-rlp-66465" {
-  name    = "vul-vpc-j2-7-rlp-66465"
-  network = google_compute_network.dep-vpc-j1-1-rlp-66465.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["::0"]
-  disabled = false
-}
-
-# false
-
-resource "google_compute_firewall" "allow_all" {
-  name          = "terragoat-${var.environment}-firewall"
-  network       = google_compute_network.vpc.id
-  source_ranges = ["0.0.0.0/0"]
-  allow {
-    protocol = "tcp"
-    ports    = ["0-65535"]
-  }
-}
-
-# false & egress
-
-resource "google_compute_firewall" "allow_all" {
-  name          = "terragoat-${var.environment}-firewall"
-  network       = google_compute_network.vpc.id
-  source_ranges = ["0.0.0.0/0"]
+  source_tags = ["web"]
+  
   direction = "EGRESS"
+  
+  disabled = true
+}
+
+# firewall -> enabled, EGRESS -> false
+
+resource "google_compute_firewall" "default" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+
+  allow {
+    protocol = "all"
+  }
+
   allow {
     protocol = "tcp"
-    ports    = ["0-65535"]
+    ports    = ["80", "8080", "1000-2000"]
   }
+
+  source_tags = ["web"]
+  
+  direction = "EGRESS"
+  
   disabled = false
 }
 
-# false & ingress
+# firewall -> disabled, INGRESS -> false
 
-resource "google_compute_firewall" "allow_all" {
-  name          = "terragoat-${var.environment}-firewall"
-  network       = google_compute_network.vpc.id
-  source_ranges = ["0.0.0.0/0"]
-  direction = "INGRESS"
+resource "google_compute_firewall" "default" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+
+  allow {
+    protocol = "all"
+  }
+
   allow {
     protocol = "tcp"
-    ports    = ["0-65535"]
+    ports    = ["80", "8080", "1000-2000"]
   }
+
+  source_tags = ["web"]
+  
+  direction = "INGRESS"
+  
+  disabled = true
 }
 
-# true & ingress
+# firewall -> enabled, INGRESS -> true
 
-resource "google_compute_firewall" "allow_all" {
-  name          = "terragoat-${var.environment}-firewall"
-  network       = google_compute_network.vpc.id
-  source_ranges = ["0.0.0.0/0"]
-  direction = "INGRESS"
+resource "google_compute_firewall" "default" {
+  name    = "test-firewall"
+  network = google_compute_network.default.name
+
+  allow {
+    protocol = "all"
+  }
+
   allow {
     protocol = "tcp"
-    ports    = ["0-65535"]
+    ports    = ["80", "8080", "1000-2000"]
   }
-  disabled = true
+
+  source_tags = ["web"]
+  
+  direction = "INGRESS"
+  
 }
