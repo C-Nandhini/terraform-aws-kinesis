@@ -10,7 +10,7 @@ resource "google_compute_network" "default" {
 
 # firewall -> disabled, EGRESS -> false
 
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "disabled-egress" {
   name    = "test-firewall"
   network = google_compute_network.default.name
 
@@ -32,7 +32,7 @@ resource "google_compute_firewall" "default" {
 
 # firewall -> enabled, EGRESS -> false
 
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "enabled-egress" {
   name    = "test-firewall"
   network = google_compute_network.default.name
 
@@ -54,7 +54,7 @@ resource "google_compute_firewall" "default" {
 
 # firewall -> disabled, INGRESS -> false
 
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "disabled-ingress" {
   name    = "test-firewall"
   network = google_compute_network.default.name
 
@@ -76,7 +76,7 @@ resource "google_compute_firewall" "default" {
 
 # firewall -> enabled, INGRESS -> true
 
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "enabled-ingress" {
   name    = "test-firewall"
   network = google_compute_network.default.name
 
