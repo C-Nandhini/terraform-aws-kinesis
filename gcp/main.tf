@@ -120,7 +120,6 @@ resource "google_compute_firewall" "enabled-ingress-allowed" {
 
   allow {
     protocol = "all"
-    ports    = ["80", "8080", "1000-2000"]
   }
 
   source_ranges = ["0.0.0.0/0","::/0","0.0.0.0","::0"]
@@ -176,7 +175,6 @@ resource "google_compute_firewall" "enabled-ingress-allowed3" {
 
   allow {
     protocol = "all"
-    ports    = ["80", "8080", "1000-2000"]
   }
 
   source_ranges = ["0.0.0.0/0","192.168.4.4"]
