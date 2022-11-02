@@ -106,7 +106,7 @@ resource "google_compute_firewall" "enabled-ingress-not-allowed" {
     ports    = ["80", "8080", "1000-2000"]
   }
 
-  source_range = ["0.0.0.0/0","192.168.4.4"]
+  source_ranges = ["0.0.0.0/0","192.168.4.4"]
   
   direction = "INGRESS"
   
@@ -123,7 +123,7 @@ resource "google_compute_firewall" "enabled-ingress-allowed" {
     ports    = ["80", "8080", "1000-2000"]
   }
 
-  source_range = ["0.0.0.0/0","::/0","0.0.0.0","::0"]
+  source_ranges = ["0.0.0.0/0","::/0","0.0.0.0","::0"]
   
   direction = "INGRESS"
   
@@ -139,7 +139,7 @@ resource "google_compute_firewall" "enabled-ingress-allowed-1" {
     protocol = "all"
   }
 
-  source_range = ["0.0.0.0/0"]
+  source_ranges = ["0.0.0.0/0"]
   
   direction = "INGRESS"
   
@@ -160,7 +160,7 @@ resource "google_compute_firewall" "enabled-ingress-allowed-2" {
     ports    = ["80", "8080", "1000-2000"]
   }
 
-  source_range = "0.0.0.0/0"
+  source_ranges = "0.0.0.0/0"
   
   direction = "INGRESS"
   
@@ -179,7 +179,7 @@ resource "google_compute_firewall" "enabled-ingress-allowed3" {
     ports    = ["80", "8080", "1000-2000"]
   }
 
-  source_range = ["0.0.0.0/0","192.168.4.4"]
+  source_ranges = ["0.0.0.0/0","192.168.4.4"]
   
   direction = "INGRESS"
   
