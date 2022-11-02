@@ -110,3 +110,44 @@ resource "google_compute_firewall" "allow_all" {
     ports    = ["0-65535"]
   }
 }
+
+# false & egress
+
+resource "google_compute_firewall" "allow_all" {
+  name          = "terragoat-${var.environment}-firewall"
+  network       = google_compute_network.vpc.id
+  source_ranges = ["0.0.0.0/0"]
+  direction = "EGRESS"
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+  disabled = false
+}
+
+# false & ingress
+
+resource "google_compute_firewall" "allow_all" {
+  name          = "terragoat-${var.environment}-firewall"
+  network       = google_compute_network.vpc.id
+  source_ranges = ["0.0.0.0/0"]
+  direction = "INGRESS"
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+}
+
+# true & ingress
+
+resource "google_compute_firewall" "allow_all" {
+  name          = "terragoat-${var.environment}-firewall"
+  network       = google_compute_network.vpc.id
+  source_ranges = ["0.0.0.0/0"]
+  direction = "INGRESS"
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+  disabled = true
+}
