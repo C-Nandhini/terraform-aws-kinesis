@@ -60,13 +60,13 @@ resource "google_compute_firewall" "compute_firewall_not_ok_2" {
   allow {
     protocol = "all"
   }
-  source_ranges = ["0.0.0.0"]
+  source_ranges = ["0.0.0.0", "192.168.2.0"]
   disabled = false
 }
 
 #case6 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_3" {
-  name    = "compute_firewall_not_ok_3"
+resource "google_compute_firewall" "detect" {
+  name    = "detect"
   network = google_compute_network.example.name
 
   allow {
@@ -85,5 +85,17 @@ resource "google_compute_firewall" "compute_firewall_not_ok_4" {
     protocol = "all"
   }
   source_ranges = ["::0"]
+  disabled = false
+}
+
+#case8 - FAIL
+resource "google_compute_firewall" "detect" {
+  name    = "detect"
+  network = google_compute_network.example.name
+
+  allow {
+    protocol = "all"
+  }
+  source_ranges = "0.0.0.0/0"
   disabled = false
 }
