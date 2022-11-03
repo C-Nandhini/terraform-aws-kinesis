@@ -44,7 +44,7 @@ resource "google_compute_firewall" "compute_firewall_ok_3" {
 resource "google_compute_firewall" "compute_firewall_not_ok_1" {
   name    = "compute_firewall_not_ok_1"
   network = google_compute_network.example.name
-  
+
   allow {
     protocol = "all"
   }
@@ -65,8 +65,8 @@ resource "google_compute_firewall" "compute_firewall_not_ok_2" {
 }
 
 #case6 - FAIL
-resource "google_compute_firewall" "detect" {
-  name    = "detect"
+resource "google_compute_firewall" "compute_firewall_not_ok_3" {
+  name    = "compute_firewall_not_ok_3"
   network = google_compute_network.example.name
 
   allow {
@@ -89,13 +89,12 @@ resource "google_compute_firewall" "compute_firewall_not_ok_4" {
 }
 
 #case8 - FAIL
-resource "google_compute_firewall" "detect1" {
-  name    = "detect1"
+resource "google_compute_firewall" "compute_firewall_not_ok_5" {
+  name    = "compute_firewall_not_ok_5"
   network = google_compute_network.example.name
 
   allow {
     protocol = "all"
   }
-  source_ranges = "0.0.0.0/0"
-  disabled = false
+  source_ranges = "::0"
 }
