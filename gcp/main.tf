@@ -89,8 +89,8 @@ resource "google_compute_firewall" "compute_firewall_not_ok_4" {
 }
 
 #case8 - FAIL
-resource "google_compute_firewall" "detect" {
-  name    = "detect"
+resource "google_compute_firewall" "detect1" {
+  name    = "detect1"
   network = google_compute_network.example.name
 
   allow {
