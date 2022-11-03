@@ -65,7 +65,7 @@ resource "google_compute_firewall" "compute_firewall_not_ok_2" {
 }
 
 #case6 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_4" {
+resource "google_compute_firewall" "compute_firewall_not_ok_3" {
   name    = "compute_firewall_not_ok_3"
   network = google_compute_network.example.name
 
