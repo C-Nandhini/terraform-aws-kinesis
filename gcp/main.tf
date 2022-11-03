@@ -60,7 +60,7 @@ resource "google_compute_firewall" "compute_firewall_not_ok_2" {
   allow {
     protocol = "all"
   }
-  source_ranges = ["0.0.0.0", "192.168.2.0"]
+  source_ranges = ["0.0.0.0"]
   disabled = false
 }
 
