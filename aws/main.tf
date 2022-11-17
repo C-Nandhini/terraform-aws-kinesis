@@ -2,41 +2,40 @@ resource "aws_s3_bucket" "test_s3_bucket" {
   bucket = "tf-cloudfront-s3-bucket"
 }
 
-
 resource "aws_cloudfront_distribution" "test_cloudfront_distribution" {
   origin = {
 
-  tlsv1 = {
-    domain_name          = "tlsv1.example.com"
-    custom_origin_config = {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols   = ["TLSv1"]
+    tlsv1 = {
+      domain_name          = "tlsv1.example.com"
+      custom_origin_config = {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "match-viewer"
+        origin_ssl_protocols   = ["TLSv1"]
+      }
     }
-  }
 
-  tlsv2 = {
-    domain_name = "something.example.com"
-    custom_origin_config = {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols   = ["TLSv2"]
+    tlsv2 = {
+      domain_name = "something.example.com"
+      custom_origin_config = {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "match-viewer"
+        origin_ssl_protocols   = ["TLSv2"]
+      }
     }
-  }
 
-  sslv3 = {
-    domain_name = "something.example.com"
-    custom_origin_config = {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols   = ["SSLv3"]
+    sslv3 = {
+      domain_name = "something.example.com"
+      custom_origin_config = {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "match-viewer"
+        origin_ssl_protocols   = ["SSLv3"]
+      }
     }
-  }
 
-}
+  }
 
   enabled = true
 
@@ -71,20 +70,21 @@ resource "aws_cloudfront_distribution" "test_cloudfront_distribution" {
   }
 }
 
+
 resource "aws_cloudfront_distribution" "test_cloudfront_distribution1" {
   origin = {
 
-  sslv3 = {
-    domain_name = "something.example.com"
-    custom_origin_config = {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols   = ["SSLv3"]
+    sslv3 = {
+      domain_name = "something.example.com"
+      custom_origin_config = {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "match-viewer"
+        origin_ssl_protocols   = ["SSLv3"]
+      }
     }
-  }
 
-}
+  }
 
   enabled = true
 
