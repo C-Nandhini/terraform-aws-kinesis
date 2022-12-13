@@ -3,98 +3,215 @@ resource "google_compute_network" "example" {
   auto_create_subnetworks = false
 }
 
-#case1 - PASS
-resource "google_compute_firewall" "compute_firewall_ok_1" {
-  name    = "compute_firewall_ok_1"
-  network = google_compute_network.example.name
-
-  deny {
-    protocol = "all"
+# False Positive Alert
+resource "google_sql_database_instance" "nvul-sql-j1-1-rlp-71262" {
+  name             = "nvul-sql-j1-1-rlp-71262"
+  database_version = "POSTGRES_14"
+  settings {
+    database_flags {
+      name  = "log_lock_waits"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_connections"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_disconnections"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_checkpoints"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_temp_files"
+      value = 0
+    }
+    database_flags {
+      name  = "log_min_duration_statement"
+      value = -1
+    }
+    database_flags {
+      name  = "log_min_messages"
+      value = "info"
+    }
+    database_flags {
+      name  = "log_error_verbosity"
+      value = "default"
+    }
+    database_flags {
+      name  = "log_hostname"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_planner_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_executor_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_parser_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_statement_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_duration"
+      value = "on"
+    }
+    user_labels = {
+      "created_by"  = "automation"
+      "purpose" = "regression"
+    }
+    tier = "db-f1-micro"
   }
-  source_ranges = ["0.0.0.0/0"]
-  disabled = false
+  deletion_protection = false
 }
 
-#case2 - PASS
-resource "google_compute_firewall" "compute_firewall_ok_2" {
-  name    = "compute_firewall_ok_2"
-  network = google_compute_network.example.name
 
-  allow {
-    protocol = "all"
+# False Positive Alert
+resource "google_sql_database_instance" "nvul-sql-j1-2-rlp-71262" {
+  name             = "nvul-sql-j1-2-rlp-71262"
+  database_version = "POSTGRES_14"
+  settings {
+    database_flags {
+      name  = "log_lock_waits"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_connections"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_disconnections"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_checkpoints"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_temp_files"
+      value = 0
+    }
+    database_flags {
+      name  = "log_min_duration_statement"
+      value = -1
+    }
+    database_flags {
+      name  = "log_min_messages"
+      value = "error"
+    }
+    database_flags {
+      name  = "log_error_verbosity"
+      value = "terse"
+    }
+    database_flags {
+      name  = "log_hostname"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_planner_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_executor_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_parser_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_statement_stats"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_duration"
+      value = "on"
+    }
+    user_labels = {
+      "created_by"  = "automation"
+      "purpose" = "regression"
+    }
+    tier = "db-f1-micro"
   }
-  source_ranges = ["::/0"]
-  disabled = true
+  deletion_protection = false
 }
 
-#case3 - PASS
-resource "google_compute_firewall" "compute_firewall_ok_3" {
-  name    = "compute_firewall_ok_3"
-  network = google_compute_network.example.name
-
-  allow {
-    protocol = "tcp"
-    ports = ["140"]
+# Alert Resource
+resource "google_sql_database_instance" "vul-sql-j1-3-rlp-71262" {
+  name             = "vul-sql-j1-3-rlp-71262"
+  database_version = "POSTGRES_14"
+  settings {
+    database_flags {
+      name  = "log_statement_stats"
+      value = "on"
+    }
+    tier = "db-f1-micro"
   }
-  source_ranges = ["0.0.0.0", "192.168.2.0"]
-  disabled = false
+  deletion_protection = false
 }
 
-#case4 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_1" {
-  name    = "compute_firewall_not_ok_1"
-  network = google_compute_network.example.name
-
-  allow {
-    protocol = "all"
+# Alert Resource
+resource "google_sql_database_instance" "vul-sql-j1-4-rlp-71262" {
+  name             = "vul-sql-j1-4-rlp-71262"
+  database_version = "POSTGRES_14"
+  settings {
+    database_flags {
+      name  = "log_lock_waits"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_connections"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_disconnections"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_checkpoints"
+      value = "off"
+    }
+    database_flags {
+      name  = "log_temp_files"
+      value = -1
+    }
+    database_flags {
+      name  = "log_min_duration_statement"
+      value = 0
+    }
+    database_flags {
+      name  = "log_error_verbosity"
+      value = "verbose"
+    }
+    database_flags {
+      name  = "log_hostname"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_planner_stats"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_executor_stats"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_parser_stats"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_duration"
+      value = "off"
+    }
+    tier = "db-f1-micro"
   }
-  source_ranges = ["::/0"]
-  disabled = false
-}
-
-#case5 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_2" {
-  name    = "compute_firewall_not_ok_2"
-  network = google_compute_network.example.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["0.0.0.0", "192.168.2.0"]
-  disabled = false
-}
-
-#case6 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_3" {
-  name    = "compute_firewall_not_ok_3"
-  network = google_compute_network.example.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["0.0.0.0/0"]
-  disabled = false
-}
-
-#case7 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_4" {
-  name    = "compute_firewall_not_ok_4"
-  network = google_compute_network.example.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = ["::0"]
-  disabled = false
-}
-
-#case8 - FAIL
-resource "google_compute_firewall" "compute_firewall_not_ok_5" {
-  name    = "compute_firewall_not_ok_5"
-  network = google_compute_network.example.name
-
-  allow {
-    protocol = "all"
-  }
-  source_ranges = "::0"
+  deletion_protection = false
 }
