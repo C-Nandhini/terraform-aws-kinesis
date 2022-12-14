@@ -262,3 +262,50 @@ resource "google_sql_database_instance" "vul-sql-j1-3-rlp-71271" {
   }
   deletion_protection = false
 }
+
+# False Positive Alert
+resource "google_sql_database_instance" "nvul-sql-j1-1-rlp-71271" {
+  name             = "nvul-sql-j1-1-rlp-71271"
+  database_version = "MYSQL_8_0"
+  settings {
+    database_flags {
+      name  = "skip_show_database"
+      value = "on"
+    }
+    database_flags {
+      name  = "local_infile"
+      value = "off"
+    }
+    tier = "db-f1-micro"
+  }
+  deletion_protection = false
+}
+
+# Alert Resource
+resource "google_sql_database_instance" "vul-sql-j1-2-rlp-71271" {
+  name             = "vul-sql-j1-2-rlp-71271"
+  database_version = "MYSQL_8_0"
+  settings {
+    tier = "db-f1-micro"
+  }
+  deletion_protection = false
+}
+
+# Alert Resource
+resource "google_sql_database_instance" "vul-sql-j1-3-rlp-71271" {
+  name             = "vul-sql-j1-3-rlp-71271"
+  database_version = "MYSQL_8_0"
+  settings {
+    database_flags {
+      name  = "skip_show_database"
+      value = "off"
+    }
+    database_flags {
+      name  = "local_infile"
+      value = "on"
+    }
+    tier = "db-f1-micro"
+  }
+  deletion_protection = false
+}
+
